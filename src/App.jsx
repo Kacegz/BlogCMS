@@ -1,35 +1,61 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import { Link, Outlet } from "react-router-dom";
+import { styled } from "styled-components";
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  async function fetchPosts() {
+    const response = await fetch("http://localhost:3000/posts");
+    const data = await response.json();
+    setPosts(data);
+    setLoading(false);
+  }
+  useEffect(() => {
+    fetchPosts();
+  }, []);
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {!loading ? (
+        <Main>
+          <Header>
+            <h1>Header</h1>
+          </Header>
+          <Navigation>
+            <div>
+              <ul>
+                {posts.map((post) => {
+                  return (
+                    <li key={post._id}>
+                      <Link to={`/${post._id}`}>{post.title}</Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </Navigation>
+          <Content>
+            <h1>Content</h1>
+            <Outlet />
+          </Content>
+        </Main>
+      ) : (
+        <h1>Loading</h1>
+      )}
     </>
-  )
+  );
 }
-
-export default App
+const Main = styled.section`
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  grid-template-rows: 1fr 9fr;
+`;
+const Header = styled.section`
+  grid-area: 1/1/1/3;
+`;
+const Navigation = styled.section``;
+const Content = styled.section`
+  background: #feece2;
+`;
+export default App;
