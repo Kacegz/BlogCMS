@@ -5,6 +5,8 @@ import { styled } from "styled-components";
 
 function Create() {
   const [newPost, setNewPost] = useState({ published: false });
+  const [error, setError] = useState();
+
   const navigate = useNavigate();
   async function createPost(e) {
     e.preventDefault();
@@ -20,14 +22,16 @@ function Create() {
     if (!response.ok) {
       const error = await response.json();
       console.log(error);
+      setError(error);
+    } else {
+      navigate(0);
     }
-    navigate(0);
   }
   return (
     <>
       <FormSection method="post" onSubmit={(e) => createPost(e)}>
         <label htmlFor="title">
-          <p>Title</p>
+          <p>Title:</p>
         </label>
         <TopSection>
           <TitleInput
@@ -50,14 +54,15 @@ function Create() {
           <PostButton type="submit" value="Add post" />
         </TopSection>
 
-        <label htmlFor="title">
-          <p>Title</p>
-          <TextInput
-            type="text"
-            name="title"
-            onChange={(e) => setNewPost({ ...newPost, text: e.target.value })}
-          />
+        <label htmlFor="Text">
+          <p>Text:</p>
         </label>
+        <TextInput
+          type="text"
+          name="Text"
+          onChange={(e) => setNewPost({ ...newPost, text: e.target.value })}
+        />
+        {error ? <ErrorMsg>{error.message}</ErrorMsg> : ""}
       </FormSection>
     </>
   );
@@ -79,7 +84,7 @@ const TitleInput = styled.input`
   border-radius: 10px;
   width: 400px;
   height: 30px;
-  font-size: 26px;
+  font-size: 24px;
   font-weight: bold;
 `;
 const CheckboxInput = styled.input`
@@ -139,8 +144,12 @@ const PostButton = styled.input`
   background: #ead8c0;
   border: 1px solid #a79277;
   &:hover {
-    background: #a79277;
+    background: #d1bb9e;
     outline: none;
   }
+`;
+const ErrorMsg = styled.p`
+  color: red;
+  font-weight: bold;
 `;
 export default Create;
