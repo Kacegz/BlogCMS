@@ -14,14 +14,17 @@ function Edit() {
     try {
       e.preventDefault();
       const user = JSON.parse(localStorage.getItem("accessToken"));
-      const response = await fetch(`http://localhost:3000/posts/${postId.id}`, {
-        method: "PUT",
-        body: JSON.stringify(selected),
-        headers: {
-          authorization: `Bearer ${user.token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `https://blogapi-production-2510.up.railway.app/posts/${postId.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify(selected),
+          headers: {
+            authorization: `Bearer ${user.token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = await response.json();
       if (!response.ok) {
         setError(data.msg);

@@ -13,22 +13,25 @@ function Delete() {
     setLoading(true);
     e.preventDefault();
     const user = JSON.parse(localStorage.getItem("accessToken"));
-    const response = await fetch(`http://localhost:3000/posts/${postId.id}`, {
-      method: "DELETE",
-      body: JSON.stringify(selected),
-      headers: {
-        authorization: `Bearer ${user.token}`,
-        "Content-Type": "application/json",
-      },
-    });
-    navigate("/dashboard/");
+    const response = await fetch(
+      `https://blogapi-production-2510.up.railway.app/posts/${postId.id}`,
+      {
+        method: "DELETE",
+        body: JSON.stringify(selected),
+        headers: {
+          authorization: `Bearer ${user.token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    navigate("/dashboard");
   }
 
   useEffect(() => {
     const selectedPost = posts.filter((post) => post._id === postId.id);
     setSelected(...selectedPost);
     setLoading(false);
-  }, [posts, postId]);
+  }, [postId]);
   return (
     <>
       {!loading && (

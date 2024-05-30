@@ -11,7 +11,7 @@ export default function Read() {
   const [comments, setComments] = useState([]);
   async function fetchComments() {
     const response = await fetch(
-      `http://localhost:3000/posts/${postId.id}/comments`
+      `https://blogapi-production-2510.up.railway.app/posts/${postId.id}/comments`
     );
     const data = await response.json();
     setComments(data);
@@ -19,7 +19,7 @@ export default function Read() {
   async function deleteComment(e, comment) {
     const user = JSON.parse(localStorage.getItem("accessToken"));
     const response = await fetch(
-      `http://localhost:3000/posts/${postId.id}/comments/${comment._id}`,
+      `https://blogapi-production-2510.up.railway.app/posts/${postId.id}/comments/${comment._id}`,
       {
         method: "DELETE",
         headers: {

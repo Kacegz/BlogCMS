@@ -11,14 +11,17 @@ function Create() {
   async function createPost(e) {
     e.preventDefault();
     const user = JSON.parse(localStorage.getItem("accessToken"));
-    const response = await fetch("http://localhost:3000/posts", {
-      method: "POST",
-      body: JSON.stringify(newPost),
-      headers: {
-        authorization: `Bearer ${user.token}`,
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      "https://blogapi-production-2510.up.railway.app/posts",
+      {
+        method: "POST",
+        body: JSON.stringify(newPost),
+        headers: {
+          authorization: `Bearer ${user.token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
     if (!response.ok) {
       const error = await response.json();
       console.log(error);

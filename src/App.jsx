@@ -10,7 +10,9 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   async function fetchPosts() {
-    const response = await fetch("http://localhost:3000/posts");
+    const response = await fetch(
+      "https://blogapi-production-2510.up.railway.app/posts"
+    );
     const data = await response.json();
     setPosts(data);
     setLoading(false);
