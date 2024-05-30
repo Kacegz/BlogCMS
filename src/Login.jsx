@@ -20,7 +20,7 @@ export default function Login() {
     if (data.isAdmin) {
       setError("");
       localStorage.setItem("accessToken", JSON.stringify(data));
-      return navigate("/dashboard");
+      return navigate("/dashboard/");
     } else {
       setError("Not an admin");
     }
@@ -46,7 +46,7 @@ export default function Login() {
               onChange={(e) => setUser({ ...user, password: e.target.value })}
             />
           </label>
-          <StyledInput type="submit" value="Login" />
+          <StyledButton type="submit" value="Login" />
         </StyledForm>
       </Wrapper>
     </>
@@ -63,11 +63,28 @@ const StyledForm = styled.form`
   flex-direction: column;
   gap: 30px;
   text-align: center;
-  border: 1px solid #e2bfb3;
   padding: 40px;
+  font-size: 24px;
 `;
 const StyledInput = styled.input`
   border: 1px solid #f7ded0;
+  background: white;
+  border-radius: 10px;
+  width: 300px;
+  height: 30px;
+  font-size: 24px;
+  font-weight: bold;
+`;
+const StyledButton = styled(StyledInput)`
+  width: 300px;
+  height: 34px;
+  border-radius: 10px;
+  background: #ead8c0;
+  border: 1px solid #a79277;
+  &:hover {
+    background: #d1bb9e;
+    outline: none;
+  }
 `;
 const ErrorMsg = styled.p`
   color: red;
