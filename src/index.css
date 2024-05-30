@@ -1,7 +1,10 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
-  background-color: #f7ded0;
-
+  background-color: #a79277;
+  color:#312921
 }
-body,h1, h2, h3, h4, h5, h6, p{margin:0;}
+a{
+  color:#312921;
+}
+body,h1, h2, h3, h4, h5, h6, p,ul{margin:0; padding:0;}
