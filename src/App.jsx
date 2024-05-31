@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import editIcon from "./assets/edit.svg";
 import deleteIcon from "./assets/delete.svg";
@@ -8,7 +8,7 @@ function App() {
   const [user, setUser] = useState();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const navigate = useNavigate();
   async function fetchPosts() {
     const response = await fetch(
       "https://blogapi-production-2510.up.railway.app/posts"
@@ -17,11 +17,18 @@ function App() {
     setPosts(data);
     setLoading(false);
   }
+  function logout() {
+    localStorage.removeItem("accessToken");
+    setUser("");
+    navigate("/");
+  }
   useEffect(() => {
     setLoading(true);
     const checkUser = JSON.parse(localStorage.getItem("accessToken"));
     if (checkUser) {
       setUser(checkUser);
+    } else {
+      navigate("/");
     }
     fetchPosts();
   }, []);
@@ -31,7 +38,9 @@ function App() {
       {!loading ? (
         <Main>
           <Logo>CMS</Logo>
-          <Header>{user ? "" : <h1>You are not logged in</h1>}</Header>
+          <Header>
+            <StyledButton onClick={() => logout()}>Logout</StyledButton>
+          </Header>
           <Navigation>
             <ul>
               {posts.map((post) => {
@@ -125,5 +134,16 @@ const CreateLink = styled(PostLink)`
 const Divider = styled.section`
   display: flex;
   gap: 10px;
+`;
+const StyledButton = styled.button`
+  width: 100px;
+  height: 34px;
+  border-radius: 10px;
+  background: #ead8c0;
+  border: 1px solid #a79277;
+  &:hover {
+    background: #a79277;
+    outline: none;
+  }
 `;
 export default App;

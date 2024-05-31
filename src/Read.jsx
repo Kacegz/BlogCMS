@@ -93,7 +93,6 @@ const StyledPost = styled.section`
 `;
 const StyledTitle = styled.section`
   width: 600px;
-  height: 40px;
   border-radius: 4px;
   background: #d1bb9e;
   border: 1px solid #a79277;

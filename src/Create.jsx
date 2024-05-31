@@ -10,24 +10,28 @@ function Create() {
   const navigate = useNavigate();
   async function createPost(e) {
     e.preventDefault();
-    const user = JSON.parse(localStorage.getItem("accessToken"));
-    const response = await fetch(
-      "https://blogapi-production-2510.up.railway.app/posts",
-      {
-        method: "POST",
-        body: JSON.stringify(newPost),
-        headers: {
-          authorization: `Bearer ${user.token}`,
-          "Content-Type": "application/json",
-        },
+    try {
+      const user = JSON.parse(localStorage.getItem("accessToken"));
+      const response = await fetch(
+        "https://blogapi-production-2510.up.railway.app/posts",
+        {
+          method: "POST",
+          body: JSON.stringify(newPost),
+          headers: {
+            authorization: `Bearer ${user.token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        const error = await response.json();
+        console.log(error);
+        setError(error);
+      } else {
+        navigate(0);
       }
-    );
-    if (!response.ok) {
-      const error = await response.json();
-      console.log(error);
-      setError(error);
-    } else {
-      navigate(0);
+    } catch (err) {
+      console.error(err);
     }
   }
   return (
